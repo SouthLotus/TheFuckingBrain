@@ -6,12 +6,12 @@
 void World::makeWorld()
 {
 	//camera
-	camera.setLookAt(glm::vec3(0.f, 3.f, 3.f),
+	camera.setLookAt(glm::vec3(0.f, 1.65f, 3.f),
 		glm::vec3(0.f, 3.f, 0.f));
 	camera.setProj(glm::radians(60.f), 1366.f / 768, 0.025f, 1000.f);
 	camController.setCamera(&camera);
 	//cube
-	cube.init("model/tf.fbx", "texture/breeze.jpg");
+	land.init("model/low.fbx");
 	//skybox
 	std::string paths[] = {
 		"texture/skybox1/right.jpg",
@@ -24,14 +24,14 @@ void World::makeWorld()
 	skybox.init("model/skybox.fbx", paths);
 	//Light
 	dLight.setDirection(glm::vec3(0, -1, 1));
-	dLight.setColor(glm::vec3(253, 226, 97)/255.f);
-	dLight.setIntensity(0.7f);
+	dLight.setColor(glm::vec3(1, 1, 1));
+	dLight.setIntensity(1);
 }
 
 void World::showAll()
 {
 	camController.controll();
-	cube.render(camera, dLight);
+	land.render(camera, dLight);
 	skybox.render(camera);
 }
 

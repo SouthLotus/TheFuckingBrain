@@ -149,15 +149,18 @@ void Camera::moveRelative(glm::vec3 amount) {
 void Camera::changeDirectionOnLen(double dx, double dy)
 {
 	glm::vec3 newRelativeAt(dx, dy, - zNear);
-	glm::mat4 invLookat = glm::inverse(lookAt);
-	glm::vec3 newWorldAt = invLookat * glm::vec4(newRelativeAt, 1);
-	glm::vec3 paVec(newWorldAt - pos);
-	float paLen = glm::length(paVec);
-	float paXZLen = glm::sqrt(paVec.x * paVec.x + paVec.z * paVec.z);
+	glm::mat3 invLookat = glm::inverse(glm::mat3(lookAt));
+	glm::vec3 dir = invLookat * newRelativeAt;
+	glm::vec3 newWorldAt;
+	float paLen = glm::length(dir);
+	float paXZLen = glm::sqrt(dir.x * dir.x + dir.z * dir.z);
 	float k = minH / paLen;
 	if (paXZLen * k <= minR) {
 		k = minR / paXZLen;
-		newWorldAt = glm::vec3(paVec.x * k, glm::sign(paVec.y), paVec.z * k) + pos;
+		newWorldAt = glm::vec3(dir.x * k, glm::sign(dir.y), dir.z * k) + pos;
+	}
+	else {
+		newWorldAt = dir + pos;
 	}
 	setAt(newWorldAt);
 }

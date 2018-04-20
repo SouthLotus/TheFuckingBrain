@@ -4,6 +4,7 @@
 #include "..\model\TexturedCube.hpp"
 #include "..\model\SkyBox.hpp"
 #include "..\object\DirectionalLight.hpp"
+#include "..\model\StaticLandscape.hpp"
 class World {
 private:
 
@@ -37,7 +38,7 @@ private:
 	};
 
 	Camera camera;
-	TexturedCube cube;
+	StaticLandscape land;
 	SkyBox skybox;
 	DirectionalLight dLight;
 	CameraController camController;

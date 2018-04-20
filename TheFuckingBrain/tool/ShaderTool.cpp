@@ -6,14 +6,6 @@
 #include <exception>
 #include <string>
 
-ShaderTool::ShaderTool() {
-
-}
-
-ShaderTool::~ShaderTool() {
-
-}
-
 //throws std::runtime_error
 std::string ShaderTool::loadShaderCode(const char * path) {
  	std::ifstream file(path, std::ios::in | std::ios::binary);
