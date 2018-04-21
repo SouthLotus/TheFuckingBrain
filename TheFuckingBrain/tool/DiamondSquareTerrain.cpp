@@ -212,13 +212,17 @@ void DiamondSquareTerrain::genTriangleMesh(
 	bl 0 0 0 br
 	*/
 	//top left
-	glm::vec3 tl(colIndex * meshStride, rowIndex * meshStride, data[offsetY][offsetX]);
+	glm::vec3 tl(
+		colIndex * meshStride, data[offsetY][offsetX], rowIndex * meshStride);
 	//top right
-	glm::vec3 tr(tl.x + meshStride, tl.y, data[offsetY][offsetX + terrainStride]);
+	glm::vec3 tr(
+		tl.x + meshStride, data[offsetY][offsetX + terrainStride], tl.z);
 	//bottom right
-	glm::vec3 br(tr.x, tl.y + meshStride, data[offsetY + terrainStride][offsetX + terrainStride]);
+	glm::vec3 br(
+		tr.x, data[offsetY + terrainStride][offsetX + terrainStride], tl.z + meshStride);
 	//bottom left
-	glm::vec3 bl(tl.x, br.y, data[offsetY + terrainStride][offsetX]);
+	glm::vec3 bl(
+		tl.x, data[offsetY + terrainStride][offsetX], br.z);
 	// counter clock wise
 	//top Triagle
 	//normal
@@ -329,7 +333,6 @@ void DiamondSquareTerrain::toTriangleMesh(
 	int numPart = 1 << level;
 	int terrainStride = (size - 1) / numPart;
 	float meshStride = meshSize / numPart;
-	
 	for (int i = 0; i < numPart; i++) {
 		for (int j = 0; j < numPart; j++) {
 			genTriangleMesh(i, j, terrainStride, meshStride, mesh, normal);

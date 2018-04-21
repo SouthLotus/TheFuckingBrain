@@ -150,6 +150,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="model\SkyBox.cpp" />
     <ClCompile Include="model\StaticLandscape.cpp" />
+    <ClCompile Include="model\Terrain.cpp" />
     <ClCompile Include="model\TexturedCube.cpp" />
     <ClCompile Include="object\Camera.cpp" />
     <ClCompile Include="object\DirectionalLight.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="shader\BasicShader.cpp" />
     <ClCompile Include="shader\LowPolyShader.cpp" />
     <ClCompile Include="shader\SkyBoxShader.cpp" />
+    <ClCompile Include="shader\TerrainShader.cpp" />
     <ClCompile Include="tool\DiamondSquareTerrain.cpp" />
     <ClCompile Include="tool\MathTool.cpp" />
     <ClCompile Include="tool\ModelTool.cpp" />
@@ -174,6 +176,7 @@
     <ClInclude Include="GLFWContext.hpp" />
     <ClInclude Include="model\SkyBox.hpp" />
     <ClInclude Include="model\StaticLandscape.hpp" />
+    <ClInclude Include="model\Terrain.hpp" />
     <ClInclude Include="model\TexturedCube.hpp" />
     <ClInclude Include="object\Camera.hpp" />
     <ClInclude Include="object\DirectionalLight.hpp" />
@@ -189,6 +192,7 @@
     <ClInclude Include="shader\BasicShader.hpp" />
     <ClInclude Include="shader\LowPolyShader.hpp" />
     <ClInclude Include="shader\SkyBoxShader.hpp" />
+    <ClInclude Include="shader\TerrainShader.hpp" />
     <ClInclude Include="tool\DiamondSquareTerrain.hpp" />
     <ClInclude Include="tool\MathTool.hpp" />
     <ClInclude Include="tool\ModelTool.hpp" />

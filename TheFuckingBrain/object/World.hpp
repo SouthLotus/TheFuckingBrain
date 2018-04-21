@@ -5,6 +5,7 @@
 #include "..\model\SkyBox.hpp"
 #include "..\object\DirectionalLight.hpp"
 #include "..\model\StaticLandscape.hpp"
+#include "..\model\Terrain.hpp"
 class World {
 private:
 
@@ -39,6 +40,7 @@ private:
 
 	Camera camera;
 	StaticLandscape land;
+	Terrain terrain;
 	SkyBox skybox;
 	DirectionalLight dLight;
 	CameraController camController;

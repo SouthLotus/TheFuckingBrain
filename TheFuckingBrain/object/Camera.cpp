@@ -123,8 +123,8 @@ float Camera::getFovy() const
 void Camera::moveRelative(glm::vec3 amount) {
 	glm::vec3 noYAt(at);
 	glm::vec3 noYPos(pos);
-	noYAt.y = 0;
-	noYPos.y = 0;
+	//noYAt.y = 0;
+	//noYPos.y = 0;
 	glm::vec3 nZ(noYPos - noYAt);
 	glm::vec3 nY(0, 1, 0);
  	glm::mat3 toWorld(matht::thisToAnother(
