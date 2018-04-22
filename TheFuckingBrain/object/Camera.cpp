@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include <iostream>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include "..\tool\MathTool.hpp"
@@ -38,8 +39,10 @@ void Camera::setLookAt(glm::vec3 pos, glm::vec3 at)
 
 void Camera::setPos(glm::vec3 pos)
 {
-	this->pos = pos;
-	lookAt = glm::lookAt(pos, at, up);
+	this->pos.x = pos.x;
+	std::cout << pos.y << std::endl;
+	this->pos.z = pos.z;
+	lookAt = glm::lookAt(this->pos, at, up);
 }
 
 void Camera::setAt(glm::vec3 at)
@@ -123,11 +126,11 @@ float Camera::getFovy() const
 void Camera::moveRelative(glm::vec3 amount) {
 	glm::vec3 noYAt(at);
 	glm::vec3 noYPos(pos);
-	//noYAt.y = 0;
-	//noYPos.y = 0;
+	noYAt.y = 0;
+	noYPos.y = 0;
 	glm::vec3 nZ(noYPos - noYAt);
 	glm::vec3 nY(0, 1, 0);
- 	glm::mat3 toWorld(matht::thisToAnother(
+ 	glm::mat3 toWorld(matht::basisAToB(
 		glm::cross(nY, nZ),  //nx
 		nY,  //ny
 		nZ  //nz

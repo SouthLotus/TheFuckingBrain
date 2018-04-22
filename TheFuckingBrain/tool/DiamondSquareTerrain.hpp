@@ -30,7 +30,8 @@ private:
 	void genQuadMesh(
 		int rowIndex, int colIndex,
 		int terrainStride, float meshStride,
-		std::vector<float> &mesh);
+		std::vector<glm::vec3> &mesh,
+		std::vector<glm::vec3> &normal);
 public:
 	DiamondSquareTerrain(int level, float max);
 	~DiamondSquareTerrain() = default;
@@ -44,12 +45,14 @@ public:
 		std::vector<glm::vec3> &mesh,
 		std::vector<glm::vec3> &normal
 	);
-	std::vector<float> toQuadMesh(
-		float meshSize, int level
+	void toQuadMesh(
+		float meshSize, int level,
+		std::vector<glm::vec3> &mesh,
+		std::vector<glm::vec3> &normal
 	);
-
+	void toResolution(
+		std::vector<std::vector<float>> &newData, int level);
 	void print();
-	/*void printTriangleMesh();*/
 };
 #endif
 /*

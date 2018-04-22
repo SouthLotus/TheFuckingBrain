@@ -248,7 +248,10 @@ void DiamondSquareTerrain::genTriangleMesh(
 	normal.push_back(bnormal);
 }
 
-void DiamondSquareTerrain::genQuadMesh(int rowIndex, int colIndex, int terrainStride, float meshStride, std::vector<float>& mesh)
+void DiamondSquareTerrain::genQuadMesh(
+	int rowIndex, int colIndex,
+	int terrainStride, float meshStride,
+	std::vector<glm::vec3> &mesh, std::vector<glm::vec3> &normal)
 {
 	int offsetX = colIndex * terrainStride;
 	int offsetY = rowIndex * terrainStride;
@@ -259,39 +262,41 @@ void DiamondSquareTerrain::genQuadMesh(int rowIndex, int colIndex, int terrainSt
 	0 0 0 0 0
 	bl 0 0 0 br
 	*/
-	//Clock wise
 	//top left
-	float tlX = colIndex * meshStride;
-	float tlY = rowIndex * meshStride;
-	float tlZ = data[offsetY][offsetX];
+	glm::vec3 tl(
+		colIndex * meshStride, data[offsetY][offsetX], rowIndex * meshStride);
 	//top right
-	float trX = tlX + meshStride;
-	float trY = tlY;
-	float trZ = data[offsetY][offsetX + terrainStride];
+	glm::vec3 tr(
+		tl.x + meshStride, data[offsetY][offsetX + terrainStride], tl.z);
 	//bottom right
-	float brX = trX;
-	float brY = tlY + meshStride;
-	float brZ =
-		data[offsetY + terrainStride][offsetX + terrainStride];
+	glm::vec3 br(
+		tr.x, data[offsetY + terrainStride][offsetX + terrainStride], tl.z + meshStride);
 	//bottom left
-	std::cout << brZ << std::endl;
-	float blX = tlX;
-	float blY = brY;
-	float blZ = data[offsetY + terrainStride][offsetX];
-	
-	//Quad
-	mesh.push_back(tlX);
-	mesh.push_back(tlY);
-	mesh.push_back(tlZ);
-	mesh.push_back(blX);
-	mesh.push_back(blY);
-	mesh.push_back(blZ);
-	mesh.push_back(brX);
-	mesh.push_back(brY);
-	mesh.push_back(brZ);
-	mesh.push_back(trX);
-	mesh.push_back(trY);
-	mesh.push_back(trZ);
+	glm::vec3 bl(
+		tl.x, data[offsetY + terrainStride][offsetX], br.z);
+	// counter clock wise
+	//top Triagle
+	//normal
+	glm::vec3 tv1 = bl - tl;
+	glm::vec3 tv2 = tr - tl;
+	glm::vec3 tnormal = glm::normalize(glm::cross(tv1, tv2));
+	mesh.push_back(tl);
+	mesh.push_back(bl);
+	mesh.push_back(tr);
+	normal.push_back(tnormal);
+	normal.push_back(tnormal);
+	normal.push_back(tnormal);
+	//bottom Triagle
+	//normal
+	glm::vec3 bv1 = bl - tr;
+	glm::vec3 bv2 = br - tr;
+	glm::vec3 bnormal = glm::normalize(glm::cross(bv1, bv2));
+	mesh.push_back(tr);
+	mesh.push_back(bl);
+	mesh.push_back(br);
+	normal.push_back(bnormal);
+	normal.push_back(bnormal);
+	normal.push_back(bnormal);
 }
 
 std::vector<float> DiamondSquareTerrain::toRGBf()
@@ -340,20 +345,36 @@ void DiamondSquareTerrain::toTriangleMesh(
 	}
 }
 
-std::vector<float> DiamondSquareTerrain::toQuadMesh(
-	float meshSize, int level
+void DiamondSquareTerrain::toQuadMesh(
+	float meshSize, int level, std::vector<glm::vec3> &mesh,
+	std::vector<glm::vec3> &normal
 ) {
-	std::vector<float> mesh;
 	int numPart = 1 << level;
 	int terrainStride = (size - 1) / numPart;
 	float meshStride = meshSize / numPart;
 
 	for (int i = 0; i < numPart; i++) {
 		for (int j = 0; j < numPart; j++) {
-			genQuadMesh(i, j, terrainStride, meshStride, mesh);
+			genQuadMesh(i, j, terrainStride, meshStride, mesh, normal);
 		}
 	}
-	return mesh;
+}
+
+void DiamondSquareTerrain::toResolution(
+	std::vector<std::vector<float>> &newData, int level)
+{
+	int numParts = 1 << level;
+	int numPoints = numParts + 1;
+	int stride = (size - 1) / numParts;
+	newData.resize(numPoints);
+	for (int i = 0; i < numPoints; i++) {
+		newData[i].resize(numPoints);
+		int oldRowIndex = i * stride;
+		for (int j = 0; j < numPoints; j++) {
+			int oldColIndex = j * stride;
+			newData[i][j] = data[oldRowIndex][oldColIndex];
+		}
+	}
 }
 
 void DiamondSquareTerrain::print()
@@ -365,15 +386,6 @@ void DiamondSquareTerrain::print()
 		std::printf("\n");
 	}
 }
-
-/*void DiamondSquareTerrain::printTriangleMesh()
-{
-	std::vector<float> mesh = toTriangleMesh(size, level);
-	int size = mesh.size();
-	for (int i = 0; i < size; i++) {
-		std::printf("%6.2f ", mesh[i]);
-	}
-}*/
 
 void DiamondSquareTerrain::saveTGA(const char *path) {
 	std::vector<dst_uc> rgb(size * size);

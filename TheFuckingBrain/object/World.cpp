@@ -6,8 +6,8 @@
 void World::makeWorld()
 {
 	//camera
-	camera.setLookAt(glm::vec3(0.f, 1.65f, 3.f),
-		glm::vec3(0.f, 3.f, 0.f));
+	camera.setLookAt(glm::vec3(5.f, 70.f, 5.f),
+		glm::vec3(0.f, 70.f, 10.f));
 	camera.setProj(glm::radians(60.f), 1366.f / 768, 0.025f, 1000.f);
 	camController.setCamera(&camera);
 	//terrain
@@ -33,6 +33,9 @@ void World::makeWorld()
 void World::showAll()
 {
 	camController.controll();
+	const glm::vec3 *pos = camera.getPos();
+	float height = terrain.getHeight(pos->x, pos->z);
+	camera.moveRelative(glm::vec3(0, height - pos->y + 1.6f, 0));
 	terrain.render(camera, dLight);
 	skybox.render(camera);
 }

@@ -12,14 +12,14 @@ glm::mat3 matht::changeBasis(glm::vec3 nxb, glm::vec3 nyb, glm::vec3 nzb)
 	);
 }
 
-glm::mat3 matht::thisToAnother(glm::vec3 nxb, glm::vec3 nyb, glm::vec3 nzb)
+glm::mat3 matht::basisAToB(glm::vec3 axInB, glm::vec3 ayInB, glm::vec3 azInB)
 {
-	nxb = glm::normalize(nxb);
-	nyb = glm::normalize(nyb);
-	nzb = glm::normalize(nzb);
+	axInB = glm::normalize(axInB);
+	ayInB = glm::normalize(ayInB);
+	azInB = glm::normalize(azInB);
 	return glm::mat3(
-		nxb,
-		nyb,
-		nzb
+		axInB,
+		ayInB,
+		azInB
 	);
 }
