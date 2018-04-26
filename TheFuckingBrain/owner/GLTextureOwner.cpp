@@ -26,8 +26,11 @@ GLuint GLTextureOwner::get(unsigned int index) const
 	return texs[index];
 }
 
-GLTextureOwner & GLTextureOwner::operator=(GLTextureOwner & another)
+GLTextureOwner & GLTextureOwner::operator=(GLTextureOwner &another)
 {
+	if (this == &another) {
+		return *this;
+	}
 	if (!another.flag || this->flag) {
 		return *this;
 	}

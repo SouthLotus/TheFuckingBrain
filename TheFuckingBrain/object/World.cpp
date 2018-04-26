@@ -8,7 +8,7 @@ void World::makeWorld()
 	//camera
 	camera.setLookAt(glm::vec3(5.f, 70.f, 5.f),
 		glm::vec3(0.f, 70.f, 10.f));
-	camera.setProj(glm::radians(60.f), 1366.f / 768, 0.025f, 1000.f);
+	camera.setProj(glm::radians(60.f), 1366.f / 768, 0.025f, 3000.f);
 	camController.setCamera(&camera);
 	//terrain
 	terrain.init();
@@ -54,24 +54,24 @@ void World::keySignal(int key, int scan, int action, int mod)
 		else if (action == GLFW_RELEASE) {
 			camController.finishLeft();
 		}
-	}
-	else if (key == GLFW_KEY_D) {
+	} else 
+	if (key == GLFW_KEY_D) {
 		if (action == GLFW_PRESS) {
 			camController.moveRight();
 		}
 		else if (action == GLFW_RELEASE) {
 			camController.finishRight();
 		}
-	}
-	else if (key == GLFW_KEY_W) {
+	} else 
+	if (key == GLFW_KEY_W) {
 		if (action == GLFW_PRESS) {
 			camController.moveToward();
 		}
 		else if (action == GLFW_RELEASE) {
 			camController.finishToward();
 		}
-	}
-	else if (key == GLFW_KEY_S) {
+	} else
+	if (key == GLFW_KEY_S) {
 		if (action == GLFW_PRESS) {
 			camController.moveBackward();
 		}

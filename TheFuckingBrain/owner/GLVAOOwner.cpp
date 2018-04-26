@@ -27,8 +27,11 @@ GLuint GLVAOOwner::get(unsigned int index) const
 	return vaos[index];
 }
 
-GLVAOOwner & GLVAOOwner::operator=(GLVAOOwner & another)
+GLVAOOwner & GLVAOOwner::operator=(GLVAOOwner &another)
 {
+	if (this == &another) {
+		return *this;
+	}
 	if (!another.flag || this->flag) {
 		return *this;
 	}

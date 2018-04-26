@@ -2,6 +2,8 @@
 #include <vector>
 #include <glm\glm.hpp>
 #include <cmath>
+#include "..\owner\FileOwner.hpp"
+#include <fstream>
 
 void LowPolyTerrainMap::genTriangleMesh(
 	int rowIndex, int colIndex, std::vector<glm::vec3>& mesh, std::vector<glm::vec3>& normal)
@@ -101,6 +103,24 @@ LowPolyTerrainMap::LowPolyTerrainMap(
 {
 }
 
+LowPolyTerrainMap::LowPolyTerrainMap(const char * filename)
+{
+	FileOwner file(filename, 
+		std::ios_base::in | std::ios_base::binary);
+	int numVerticesOnEdge = 0;
+	file->read((char *)&size, sizeof(float));
+	file->read((char *)&numVerticesOnEdge, sizeof(int));
+	stride = size / (numVerticesOnEdge - 1);
+	heights.resize(numVerticesOnEdge);
+	for (int i = 0; i < numVerticesOnEdge; i++) {
+		heights[i].resize(numVerticesOnEdge);
+		for (int j = 0; j < numVerticesOnEdge; j++) {
+			file->read(
+				(char *)&heights[i][j], sizeof(float));
+		}
+	}
+}
+
 void LowPolyTerrainMap::toTriangleMesh(
 	std::vector<glm::vec3>& mesh, std::vector<glm::vec3>& normal)
 {
@@ -152,3 +172,20 @@ float LowPolyTerrainMap::getHeight(float x, float z)
 float LowPolyTerrainMap::getStride() {
 	return stride;
 }
+
+void LowPolyTerrainMap::saveToFile(const char * path)
+{
+	FileOwner file(path, 
+		std::ios_base::out|std::ios_base::binary);
+	int numVerticesOnEdge = heights.size();
+	file->write((char *)&size, sizeof(float));
+	file->write((char *)&numVerticesOnEdge, sizeof(int));
+	for (int i = 0; i < numVerticesOnEdge; i++) {
+		for (int j = 0; j < numVerticesOnEdge; j++) {
+			file->write(
+				(char *)&heights[i][j], sizeof(float));
+		}
+	}
+}
+
+

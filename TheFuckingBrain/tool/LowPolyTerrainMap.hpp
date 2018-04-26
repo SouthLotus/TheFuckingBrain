@@ -22,6 +22,7 @@ public:
 	LowPolyTerrainMap(
 		std::vector<std::vector<float>> heights,
 		float size);
+	LowPolyTerrainMap(const char *filename);
 	~LowPolyTerrainMap() = default;
 	void toTriangleMesh(
 		std::vector<glm::vec3> &mesh,
@@ -33,5 +34,6 @@ public:
 	);
 	float getHeight(float x, float z);
 	float getStride();
+	void saveToFile(const char *path);
 };
 #endif

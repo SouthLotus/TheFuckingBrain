@@ -1,4 +1,7 @@
 #include "MathTool.hpp"
+#include <vector>
+#include <cstdio>
+#include <glm\glm.hpp>
 
 glm::mat3 matht::changeBasis(glm::vec3 nxb, glm::vec3 nyb, glm::vec3 nzb)
 {
@@ -22,4 +25,31 @@ glm::mat3 matht::basisAToB(glm::vec3 axInB, glm::vec3 ayInB, glm::vec3 azInB)
 		ayInB,
 		azInB
 	);
+}
+
+double matht::GaussianDistr2D(double x, double y, double dev) {
+	double squareDevMul2 = 2 * dev * dev;
+	return glm::exp(-(x*x + y*y)/squareDevMul2) / (squareDevMul2 * glm::pi<double>());
+}
+
+void matht::GaussianBlurMatrix(int level, double dev,
+	std::vector<std::vector<double>> &matrix) {
+	int size = 2 * level + 1;
+	matrix.resize(size);
+	int limit = (size - 1) / 2;
+	double sum = 0;
+	for (int i = 0; i < size; i++) {
+		int y = -i + limit;
+		matrix[i].resize(size);
+		for (int j = 0; j < size; j++) {
+			int x = j - limit;
+			matrix[i][j] = GaussianDistr2D(x, y, dev);
+			sum += matrix[i][j];
+		}
+	}
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			matrix[i][j] /= sum;
+		}
+	}
 }

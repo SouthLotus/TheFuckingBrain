@@ -49,6 +49,9 @@ void GLProgramOwner::unUse()
 
 GLProgramOwner & GLProgramOwner::operator =(
 	GLProgramOwner &another) {
+	if (this == &another) {
+		return *this;
+	}
 	if(!another.flag || this->flag) {
 		return *this;
 	}

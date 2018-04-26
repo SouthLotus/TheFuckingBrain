@@ -1,5 +1,5 @@
-#ifndef __terrain
-#define __terrain
+#ifndef __lowpoly_terrain
+#define __lowpoly_terrain
 #include <gl\glew.h>
 #include <string>
 #include <glm\glm.hpp>

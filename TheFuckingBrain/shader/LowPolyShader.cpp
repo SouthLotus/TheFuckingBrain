@@ -54,16 +54,6 @@ void LowPolyShader::init()
 	uCameraPosition = glGetUniformLocation(
 		programHolder, "cameraPosition"
 	);
-	/*std::cout << iVCoord << std::endl;
-	std::cout << iVNormal << std::endl;
-	std::cout << ika << std::endl;
-	std::cout << ikd << std::endl;
-	std::cout << iks << std::endl;
-	std::cout << uProjModelView << std::endl;
-	std::cout << uLitColor << std::endl;
-	std::cout << uLitDirection << std::endl;
-	std::cout << uLitIntensity << std::endl;
-	std::cout << uCameraPosition << std::endl;*/
 }
 
 void LowPolyShader::useProgram()

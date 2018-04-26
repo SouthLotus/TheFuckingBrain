@@ -20,9 +20,12 @@ void LowPolyTerrain::initVao() {
 	std::vector<glm::vec3> coords;
 	std::vector<glm::vec3> normals;
 	std::vector<std::vector<float>> heights;
-	DiamondSquareTerrain terrain(8, 60);
-	terrain.toResolution(heights, 8);
-	terrainMap = LowPolyTerrainMap(heights, 500);
+	DiamondSquareTerrain terrain(9, 300);
+	terrain.doGaussainBlur(2, 1);
+	terrain.toResolution(heights, 6);
+	terrainMap = LowPolyTerrainMap(heights, 2000);
+	//terrainMap = LowPolyTerrainMap("D:/nam.terr");
+	terrainMap.saveToFile("D:/nam.terr");
 	terrainMap.toTriangleMesh(coords, normals);
 	int coordsSize = coords.size() * sizeof(glm::vec3);
 	int normalsSize = normals.size() * sizeof(glm::vec3);

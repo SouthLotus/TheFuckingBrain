@@ -27,8 +27,11 @@ GLuint GLVBOOwner::get(unsigned int index) const
 	return vbos[index];
 }
 
-GLVBOOwner & GLVBOOwner::operator=(GLVBOOwner & another)
+GLVBOOwner & GLVBOOwner::operator=(GLVBOOwner &another)
 {
+	if (this == &another) {
+		return *this;
+	}
 	if (!another.flag || this->flag) {
 		return *this;
 	}

@@ -154,7 +154,9 @@
     <ClCompile Include="model\TexturedCube.cpp" />
     <ClCompile Include="object\Camera.cpp" />
     <ClCompile Include="object\DirectionalLight.cpp" />
+    <ClCompile Include="object\LowPolyTerrainObj.cpp" />
     <ClCompile Include="object\World.cpp" />
+    <ClCompile Include="owner\FileOwner.cpp" />
     <ClCompile Include="owner\GLAttachShaderOwner.cpp" />
     <ClCompile Include="owner\GLProgramOwner.cpp" />
     <ClCompile Include="owner\GLShaderCompilerOwner.cpp" />
@@ -181,7 +183,9 @@
     <ClInclude Include="model\TexturedCube.hpp" />
     <ClInclude Include="object\Camera.hpp" />
     <ClInclude Include="object\DirectionalLight.hpp" />
+    <ClInclude Include="object\LowPolyTerrainObj.hpp" />
     <ClInclude Include="object\World.hpp" />
+    <ClInclude Include="owner\FileOwner.hpp" />
     <ClInclude Include="owner\GLAttachShaderOwner.hpp" />
     <ClInclude Include="owner\GLProgramOwner.hpp" />
     <ClInclude Include="owner\GLShaderCompilerOwner.hpp" />

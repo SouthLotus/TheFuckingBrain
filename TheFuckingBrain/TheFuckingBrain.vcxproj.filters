@@ -93,6 +93,12 @@
     <ClCompile Include="model\LowPolyTerrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="object\LowPolyTerrainObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="owner\FileOwner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWContext.hpp">
@@ -168,6 +174,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="model\LowPolyTerrain.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="object\LowPolyTerrainObj.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="owner\FileOwner.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

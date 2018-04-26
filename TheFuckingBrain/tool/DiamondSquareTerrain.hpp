@@ -32,6 +32,8 @@ private:
 		int terrainStride, float meshStride,
 		std::vector<glm::vec3> &mesh,
 		std::vector<glm::vec3> &normal);
+	double calculateConvolution(
+		std::vector<std::vector<double>> &matrix, int row, int col);
 public:
 	DiamondSquareTerrain(int level, float max);
 	~DiamondSquareTerrain() = default;
@@ -52,6 +54,7 @@ public:
 	);
 	void toResolution(
 		std::vector<std::vector<float>> &newData, int level);
+	void doGaussainBlur(int level, double dev);
 	void print();
 };
 #endif

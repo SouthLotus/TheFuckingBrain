@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stb\stb_image_write.h>
 #include <glm\glm.hpp>
+#include "..\tool\MathTool.hpp"
 #define RAND random(-max, max)
 
 DiamondSquareTerrain::DiamondSquareTerrain(int level, float max) :
@@ -299,6 +300,30 @@ void DiamondSquareTerrain::genQuadMesh(
 	normal.push_back(bnormal);
 }
 
+double DiamondSquareTerrain::calculateConvolution(
+	std::vector<std::vector<double>> &matrix, int row, int col)
+{
+	double sum = 0;
+	int matrixSize = matrix.size();
+	int limit = (matrixSize - 1) / 2;
+	for (int i = 0; i < matrixSize; i++) {
+		int y = -i + limit;
+		for (int j = 0; j < matrixSize; j++) {
+			int x = j - limit;
+			int terrainRowIndex = row - y;
+			int terrainColIndex = col + x;
+			if (terrainRowIndex < 0 || terrainRowIndex >= size) {
+				break;
+			}
+			if (terrainColIndex < 0 || terrainColIndex >= size) {
+				continue;
+			}
+			sum += data[terrainRowIndex][terrainColIndex] * matrix[i][j];
+		}
+	}
+	return sum;
+}
+
 std::vector<float> DiamondSquareTerrain::toRGBf()
 {
 	std::vector<float> rgb(size * size * 3);
@@ -373,6 +398,18 @@ void DiamondSquareTerrain::toResolution(
 		for (int j = 0; j < numPoints; j++) {
 			int oldColIndex = j * stride;
 			newData[i][j] = data[oldRowIndex][oldColIndex];
+		}
+	}
+}
+
+void DiamondSquareTerrain::doGaussainBlur(
+	int level, double dev)
+{
+	std::vector<std::vector<double>> matrix;
+	matht::GaussianBlurMatrix(level, dev, matrix);
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			data[i][j] = calculateConvolution(matrix, i, j);
 		}
 	}
 }
