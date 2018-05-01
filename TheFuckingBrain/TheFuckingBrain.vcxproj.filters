@@ -84,9 +84,6 @@
     <ClCompile Include="tool\DiamondSquareTerrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shader\TerrainShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tool\LowPolyTerrainMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -97,6 +94,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="owner\FileOwner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shader\LowPolyTerrainRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shader\LowPolyTerrainShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,9 +173,6 @@
     <ClInclude Include="tool\DiamondSquareTerrain.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shader\TerrainShader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tool\LowPolyTerrainMap.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -180,6 +183,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="owner\FileOwner.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Model.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader\LowPolyTerrainRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader\LowPolyTerrainShader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

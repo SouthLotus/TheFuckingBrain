@@ -188,4 +188,8 @@ void LowPolyTerrainMap::saveToFile(const char * path)
 	}
 }
 
+float LowPolyTerrainMap::getSize() {
+	return size;
+}
+
 

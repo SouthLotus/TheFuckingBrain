@@ -6,18 +6,21 @@
 #include "..\shader\LowPolyShader.hpp"
 #include "..\owner\GLVAOOwner.hpp"
 #include "..\owner\GLVBOOwner.hpp"
+#include "..\owner\GLTextureOwner.hpp"
 #include "..\object\Camera.hpp"
 #include "..\object\DirectionalLight.hpp"
-#include "..\shader\TerrainShader.hpp"
+#include "..\shader\LowPolyTerrainShader.hpp"
 #include "..\tool\LowPolyTerrainMap.hpp"
 class LowPolyTerrain {
 private:
 	GLVAOOwner vaoOwner;
 	GLVBOOwner vboOwner;
+	GLTextureOwner texOwner;
 	unsigned int numVer;
-	TerrainShader shader;
+	LowPolyTerrainShader shader;
 	LowPolyTerrainMap terrainMap;
 	void initVao();
+	void initTexture();
 public:
 	LowPolyTerrain() = default;
 	~LowPolyTerrain() = default;

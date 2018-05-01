@@ -14,10 +14,6 @@ ModelTool::ModelTool(std::string path) {
 	}
 }
 
-ModelTool::~ModelTool() {
-	
-}
-
 /*Load model chi lay vertex Coordinates*/
 void ModelTool::loadModelC(
 	std::vector<float> &coordVector)
@@ -40,6 +36,58 @@ void ModelTool::loadModelC(
 				coordVector.push_back(coord.x);
 				coordVector.push_back(coord.y);
 				coordVector.push_back(coord.z);
+			}
+		}
+	}
+}
+
+void ModelTool::loadModelN(std::vector<float>& normalVector)
+{
+	const aiScene *scene = this->importer.GetScene();
+	aiMesh **meshes = scene->mMeshes;
+	int numMeshes = scene->mNumMeshes;
+	/*normal cua vertex trong vector<float>*/
+	for (int meshIndex = 0; meshIndex < numMeshes; meshIndex++) {
+		aiMesh *mesh = meshes[meshIndex];
+		aiFace *faces = mesh->mFaces;
+		aiVector3D *normals = mesh->mNormals;
+		int numFaces = mesh->mNumFaces;
+		for (int faceIndex = 0; faceIndex < numFaces; faceIndex++) {
+			aiFace face = faces[faceIndex];
+			unsigned int *vertexIndicesInFace = face.mIndices;
+			int numVertexIndices = face.mNumIndices;
+			for (int vertexIndexInFace = 0; vertexIndexInFace < numVertexIndices; vertexIndexInFace++) {
+				int vertexIndex = vertexIndicesInFace[vertexIndexInFace];
+				aiVector3D normal = normals[vertexIndex];
+				normalVector.push_back(normal.x);
+				normalVector.push_back(normal.y);
+				normalVector.push_back(normal.z);
+			}
+		}
+	}
+}
+
+void ModelTool::loadModelT(std::vector<float>& texVector)
+{
+	const aiScene *scene = this->importer.GetScene();
+	aiMesh **meshes = scene->mMeshes;
+	int numMeshes = scene->mNumMeshes;
+	/*Luu tru cac coord, normal cua vertex trong vector<float>*/
+	for (int meshIndex = 0; meshIndex < numMeshes; meshIndex++) {
+		aiMesh *mesh = meshes[meshIndex];
+		aiFace *faces = mesh->mFaces;
+		aiVector3D *texCoords = mesh->mTextureCoords[0];
+		int numFaces = mesh->mNumFaces;
+		for (int faceIndex = 0; faceIndex < numFaces; faceIndex++) {
+			aiFace face = faces[faceIndex];
+			unsigned int *vertexIndicesInFace = face.mIndices;
+			int numVertexIndices = face.mNumIndices;
+			for (int vertexIndexInFace = 0; vertexIndexInFace < numVertexIndices; vertexIndexInFace++) {
+				int vertexIndex = vertexIndicesInFace[vertexIndexInFace];
+				aiVector3D texCoord = texCoords[vertexIndex];
+				texVector.push_back(texCoord.x);
+				texVector.push_back(texCoord.y);
+				texVector.push_back(texCoord.z);
 			}
 		}
 	}

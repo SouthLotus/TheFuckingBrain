@@ -47,7 +47,7 @@ void GLProgramOwner::unUse()
 	glUseProgram(0);
 }
 
-GLProgramOwner & GLProgramOwner::operator =(
+GLProgramOwner & GLProgramOwner::operator=(
 	GLProgramOwner &another) {
 	if (this == &another) {
 		return *this;

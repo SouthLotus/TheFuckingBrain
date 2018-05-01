@@ -2,6 +2,7 @@
 #include "DiamondSquareTerrain.hpp"
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 #include <memory>
 #include <cstdio>
 #include <iostream>
@@ -330,7 +331,7 @@ std::vector<float> DiamondSquareTerrain::toRGBf()
 	int rgbIndex = 0;
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			float colorValue = data[i][j] * mul;
+			float colorValue = data[i][j] / max;
 			rgb[rgbIndex] = colorValue;
 			rgb[rgbIndex + 1] = colorValue;
 			rgb[rgbIndex + 2] = colorValue;
@@ -344,9 +345,10 @@ std::vector<dst_uc> DiamondSquareTerrain::toRGBuc()
 {
 	std::vector<dst_uc> rgb(size * size * 3);
 	int rgbIndex = 0;
+	float ratio = 255 / max;
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			dst_uc colorValue = (dst_uc)data[i][j] * mul;
+			dst_uc colorValue = (dst_uc)std::lroundf(data[i][j] * ratio);
 			rgb[rgbIndex] = colorValue;
 			rgb[rgbIndex + 1] = colorValue;
 			rgb[rgbIndex + 2] = colorValue;
@@ -414,6 +416,11 @@ void DiamondSquareTerrain::doGaussainBlur(
 	}
 }
 
+const std::vector<std::vector<float>>* DiamondSquareTerrain::getData()
+{
+	return &data;
+}
+
 void DiamondSquareTerrain::print()
 {
 	for (int i = 0; i < size; i++) {
@@ -427,9 +434,10 @@ void DiamondSquareTerrain::print()
 void DiamondSquareTerrain::saveTGA(const char *path) {
 	std::vector<dst_uc> rgb(size * size);
 	int rgbIndex = 0;
+	float ratio = 255 / max;
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			rgb[rgbIndex] = (dst_uc)data[i][j] * mul;
+			rgb[rgbIndex] = (dst_uc)std::lroundf(data[i][j] * ratio);
 			rgbIndex ++;
 		}
 	}
@@ -442,5 +450,24 @@ void DiamondSquareTerrain::saveBMP(const char * path) {
 }
 
 void DiamondSquareTerrain::multiply(float num) {
+	float oldMul = mul;
+	float tmpMul = num / oldMul;
 	mul = num;
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			data[i][j] *= tmpMul;
+		}
+	}
 }
+
+void DiamondSquareTerrain::flatInValue(
+	float height, float min, float max) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			if (data[i][j] >= min && data[i][j] <= max) {
+				data[i][j] = height;
+			}
+		}
+	}
+}
+ 

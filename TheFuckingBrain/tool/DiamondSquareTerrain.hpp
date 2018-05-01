@@ -55,6 +55,8 @@ public:
 	void toResolution(
 		std::vector<std::vector<float>> &newData, int level);
 	void doGaussainBlur(int level, double dev);
+	void flatInValue(float height, float min, float max);
+	const std::vector<std::vector<float>> * getData();
 	void print();
 };
 #endif

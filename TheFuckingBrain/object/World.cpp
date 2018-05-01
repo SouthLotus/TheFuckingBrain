@@ -27,7 +27,7 @@ void World::makeWorld()
 	//Light
 	dLight.setDirection(glm::vec3(0, -1, 1));
 	dLight.setColor(glm::vec3(1, 1, 1));
-	dLight.setIntensity(0.5f);
+	dLight.setIntensity(1.f);
 }
 
 void World::showAll()

@@ -34,6 +34,7 @@ public:
 	);
 	float getHeight(float x, float z);
 	float getStride();
+	float getSize();
 	void saveToFile(const char *path);
 };
 #endif

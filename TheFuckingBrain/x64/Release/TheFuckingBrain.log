@@ -1,12 +1,11 @@
-﻿  LowPolyTerrain.cpp
-model\LowPolyTerrain.cpp(30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-model\LowPolyTerrain.cpp(31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-model\LowPolyTerrain.cpp(33): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-model\LowPolyTerrain.cpp(56): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+﻿  Main.cpp
+e:\cworkspace\thefuckingbrain\thefuckingbrain\object\World.hpp(39): warning C4091: 'static ': ignored on left of 'World::CameraController' when no variable is declared
+e:\cworkspace\thefuckingbrain\thefuckingbrain\GLFWContext.hpp(20): warning C4091: 'static ': ignored on left of 'GLFWContext::GLFWContextOwner' when no variable is declared
+e:\cworkspace\thefuckingbrain\thefuckingbrain\GLFWContext.hpp(37): warning C4091: 'static ': ignored on left of 'GLFWContext::GLFWWindowOwner' when no variable is declared
   Generating code
-  31 of 953 functions ( 3.3%) were compiled, the rest were copied from previous compilation.
+  3 of 138 functions ( 2.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    12 functions had inline decision re-evaluated but remain unchanged
+    18 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   TheFuckingBrain.vcxproj -> E:\Cworkspace\TheFuckingBrain\x64\Release\TheFuckingBrain.exe
   TheFuckingBrain.vcxproj -> E:\Cworkspace\TheFuckingBrain\x64\Release\TheFuckingBrain.pdb (Full PDB)

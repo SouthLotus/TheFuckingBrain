@@ -7,6 +7,11 @@ imgData(imgData)
 {
 }
 
+STBImageOwner::STBImageOwner(const char * filename, int desiredChannels)
+{
+	imgData = stbi_load(filename, &width, &height, &channels, desiredChannels);
+}
+
 STBImageOwner::~STBImageOwner() {
 	destroy();
 }
@@ -27,4 +32,19 @@ void STBImageOwner::destroy()
 const stbi_uc * STBImageOwner::get() const
 {
 	return imgData;
+}
+
+int STBImageOwner::getW() const
+{
+	return width;
+}
+
+int STBImageOwner::getH() const
+{
+	return height;
+}
+
+int STBImageOwner::getChannels() const
+{
+	return channels;
 }

@@ -10,8 +10,12 @@ private:
 	Assimp::Importer importer;
 public:	
 	ModelTool(std::string path);
-	~ModelTool();
+	~ModelTool() = default;
 	void loadModelC(
+		std::vector<float> &coordVector);
+	void loadModelN(
+		std::vector<float> &coordVector);
+	void loadModelT(
 		std::vector<float> &coordVector);
 	void loadModelCN(
 		std::vector<float> &coordVector,
