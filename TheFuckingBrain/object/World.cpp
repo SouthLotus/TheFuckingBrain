@@ -2,16 +2,18 @@
 #include <glm\glm.hpp>
 #include <glfw\glfw3.h>
 #include <string>
+#include "..\shader\Anim1Shader.hpp"
+
 
 void World::makeWorld()
 {
 	//camera
-	camera.setLookAt(glm::vec3(5.f, 70.f, 5.f),
-		glm::vec3(0.f, 70.f, 10.f));
+	camera.setLookAt(glm::vec3(5.f, 5.f, 5.f),
+		glm::vec3(0, 0, 0));
 	camera.setProj(glm::radians(60.f), 1366.f / 768, 0.025f, 3000.f);
 	camController.setCamera(&camera);
 	//terrain
-	terrain.init();
+	//terrain.init();
 	//cube
 	//land.init("model/low.fbx");
 	//skybox
@@ -28,15 +30,22 @@ void World::makeWorld()
 	dLight.setDirection(glm::vec3(0, -1, 1));
 	dLight.setColor(glm::vec3(1, 1, 1));
 	dLight.setIntensity(1.f);
+	anim.beginAnim();
+}
+
+World::World()
+{
+	makeWorld();
 }
 
 void World::showAll()
 {
 	camController.controll();
 	const glm::vec3 *pos = camera.getPos();
-	float height = terrain.getHeight(pos->x, pos->z);
-	camera.moveRelative(glm::vec3(0, height - pos->y + 1.6f, 0));
-	terrain.render(camera, dLight);
+	//float height = terrain.getHeight(pos->x, pos->z);
+	//camera.moveRelative(glm::vec3(0, height - pos->y + 1.6f, 0));
+	//terrain.render(camera, dLight);
+	anim.render(camera, dLight);
 	skybox.render(camera);
 }
 

@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="GLFWContext.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="model\Anim1Renderer.cpp" />
     <ClCompile Include="model\Model.cpp" />
     <ClCompile Include="model\SkyBox.cpp" />
     <ClCompile Include="model\StaticLandscape.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="owner\GLVAOOwner.cpp" />
     <ClCompile Include="owner\GLVBOOwner.cpp" />
     <ClCompile Include="owner\STBImageOwner.cpp" />
+    <ClCompile Include="shader\Anim1Shader.cpp" />
     <ClCompile Include="shader\BasicShader.cpp" />
     <ClCompile Include="shader\LowPolyShader.cpp" />
     <ClCompile Include="shader\SkyBoxShader.cpp" />
@@ -176,9 +178,11 @@
     <ClCompile Include="tool\MathTool.cpp" />
     <ClCompile Include="tool\ModelTool.cpp" />
     <ClCompile Include="tool\ShaderTool.cpp" />
+    <ClCompile Include="tool\SkeletalAnimParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWContext.hpp" />
+    <ClInclude Include="model\Anim1Renderer.hpp" />
     <ClInclude Include="model\Model.hpp" />
     <ClInclude Include="model\SkyBox.hpp" />
     <ClInclude Include="model\StaticLandscape.hpp" />
@@ -197,6 +201,7 @@
     <ClInclude Include="owner\GLVAOOwner.hpp" />
     <ClInclude Include="owner\GLVBOOwner.hpp" />
     <ClInclude Include="owner\STBImageOwner.hpp" />
+    <ClInclude Include="shader\Anim1Shader.hpp" />
     <ClInclude Include="shader\BasicShader.hpp" />
     <ClInclude Include="shader\LowPolyShader.hpp" />
     <ClInclude Include="shader\SkyBoxShader.hpp" />
@@ -207,6 +212,7 @@
     <ClInclude Include="tool\MathTool.hpp" />
     <ClInclude Include="tool\ModelTool.hpp" />
     <ClInclude Include="tool\ShaderTool.hpp" />
+    <ClInclude Include="tool\SkeletalAnimParser.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

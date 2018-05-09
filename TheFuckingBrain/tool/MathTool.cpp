@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdio>
 #include <glm\glm.hpp>
+#include <chrono>
 
 glm::mat3 matht::changeBasis(glm::vec3 nxb, glm::vec3 nyb, glm::vec3 nzb)
 {
@@ -52,4 +53,18 @@ void matht::GaussianBlurMatrix(int level, double dev,
 			matrix[i][j] /= sum;
 		}
 	}
+}
+
+long long matht::currentTimeMillis()
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(
+		std::chrono::system_clock::now().time_since_epoch()
+		).count();
+}
+
+long long matht::currentTimeSeconds()
+{
+	return std::chrono::duration_cast<std::chrono::seconds>(
+		std::chrono::system_clock::now().time_since_epoch()
+		).count();
 }

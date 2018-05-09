@@ -1,6 +1,6 @@
-#include "GLShaderOwner.hpp"
 #include <gl\glew.h>
 #include <gl\freeglut.h>
+#include "GLShaderOwner.hpp"
 #include <exception>
 #include <iostream>
 #include "..\tool\ShaderTool.hpp"

@@ -5,6 +5,7 @@
 #include "model\TexturedCube.hpp"
 #include <GLFW\glfw3.h>
 #include "object\World.hpp"
+
 class GLFWContext
 {
 private:
@@ -39,7 +40,7 @@ private:
 	GLFWWindowOwner windowOwner;
 	GLFWContextOwner contextOwner;
 	//World
-	World world;
+	std::unique_ptr<World> world;
 	void init();
 	void display();
 	void dispose();

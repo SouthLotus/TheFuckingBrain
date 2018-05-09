@@ -2,19 +2,22 @@
 #include <gl/freeglut.h>
 #include <exception>
 #include <iostream>
-#include "GLFWContext.hpp"
 #include <stb\stb_image.h>
+#include <memory>
+#include "GLFWContext.hpp"
 #include "shader\BasicShader.hpp"
 #include "tool\ModelTool.hpp"
 #include "owner\STBImageOwner.hpp"
 #include "shader\LowPolyShader.hpp"
+#include "shader\Anim1Shader.hpp"
 
 GLFWContext *GLFWContext::pointToMe = nullptr;
 
 void GLFWContext::init()
 {
 	glClearColor(0, 0, 0, 1);
-	world.makeWorld();
+	Anim1Shader anim = Anim1Shader::create();
+	world = std::unique_ptr<World>(new World());
 }
 
 void GLFWContext::display()
@@ -23,7 +26,7 @@ void GLFWContext::display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	world.showAll();
+	world->showAll();
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 }
@@ -115,19 +118,19 @@ void GLFWContext::framebufferSizeCallback(
 	glViewport(0, 0, width, height);
 	pointToMe->windowOwner.width = width;
 	pointToMe->windowOwner.height = height;
-	pointToMe->world.framebufferSizeSignal(width, height);
+	pointToMe->world->framebufferSizeSignal(width, height);
 }
 
 void GLFWContext::keyCallback(
 	GLFWwindow * window, int key, int scan, int action, int mod)
 {
-	pointToMe->world.keySignal(key, scan, action, mod);
+	pointToMe->world->keySignal(key, scan, action, mod);
 }
 
 void GLFWContext::cursorPosCallback(
 	GLFWwindow * window, double posx, double posy)
 {
-	pointToMe->world.cursorPosSignal(posx, posy);
+	pointToMe->world->cursorPosSignal(posx, posy);
 }
 
 //GLFWCongtextOwner

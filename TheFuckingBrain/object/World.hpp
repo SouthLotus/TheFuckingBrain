@@ -6,6 +6,7 @@
 #include "..\object\DirectionalLight.hpp"
 #include "..\model\StaticLandscape.hpp"
 #include "..\model\LowPolyTerrain.hpp"
+#include "..\model\Anim1Renderer.hpp"
 class World {
 private:
 
@@ -40,15 +41,15 @@ private:
 
 	Camera camera;
 	StaticLandscape land;
-	LowPolyTerrain terrain;
+	//LowPolyTerrain terrain;
+	Anim1Renderer anim;
 	SkyBox skybox;
 	DirectionalLight dLight;
 	CameraController camController;
-
-public:
-	World() = default;
-	~World() = default;
 	void makeWorld();
+public:
+	World();
+	~World() = default;
 	void showAll();
 	void framebufferSizeSignal(int width, int height);
 	void keySignal(int key, int scan, int action, int mod);
