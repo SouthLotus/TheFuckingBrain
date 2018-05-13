@@ -37,14 +37,14 @@ int Anim1Shader::getINormal()
 	return iNormal;
 }
 
-int Anim1Shader::getIBIDs()
+int Anim1Shader::getIBIDs(int index)
 {
-	return iBIDs;
+	return iBIDs[index];
 }
 
-int Anim1Shader::getIBWeights()
+int Anim1Shader::getIBWeights(int index)
 {
-	return iBWeights;
+	return iBWeights[index];
 }
 
 int Anim1Shader::getVTrans()
@@ -80,10 +80,14 @@ void Anim1Shader::init()
 		programHandler, "iCoord");
 	iNormal = glGetAttribLocation(
 		programHandler, "iNormal");
-	iBIDs = glGetAttribLocation(
-		programHandler, "iBIDs");
-	iBWeights = glGetAttribLocation(
-		programHandler, "iBWeights");
+	iBIDs[0] = glGetAttribLocation(
+		programHandler, "iBIDs[0]");
+	iBIDs[1] = glGetAttribLocation(
+		programHandler, "iBIDs[1]");
+	iBWeights[0] = glGetAttribLocation(
+		programHandler, "iBWeights[0]");
+	iBWeights[1] = glGetAttribLocation(
+		programHandler, "iBWeights[1]");
 	vTrans = glGetUniformLocation(
 		programHandler, "vTrans"
 	);

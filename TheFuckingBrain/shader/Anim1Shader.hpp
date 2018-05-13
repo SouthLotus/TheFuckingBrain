@@ -8,8 +8,8 @@ private:
 	GLProgramOwner program;
 	int iCoord;
 	int iNormal;
-	int iBIDs;
-	int iBWeights;
+	int iBIDs[2];
+	int iBWeights[2];
 	int vTrans;
 	int projViewModel;
 	void init();
@@ -21,8 +21,8 @@ public:
 	void unUseProgram();
 	int getICoord();
 	int getINormal();
-	int getIBIDs();
-	int getIBWeights();
+	int getIBIDs(int index);
+	int getIBWeights(int index);
 	int getVTrans();
 	int getProjViewModel();
 	static Anim1Shader create();

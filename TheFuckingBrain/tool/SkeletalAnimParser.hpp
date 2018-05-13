@@ -18,7 +18,6 @@ private:
 	};
 	const aiScene *scene;
 	Assimp::Importer importer;
-	unsigned int maxKeyFrames = 0;
 	unsigned int maxAffectBones = 0;
 	std::map<std::string, int> boneIndices;
 	std::map<std::string, aiMatrix4x4> localMats;
@@ -31,7 +30,18 @@ private:
 	*/
 	std::vector<std::vector<aiMatrix4x4>> finalTransMats;
 	std::vector<std::vector<VertexData>> verticesData;
-	void findMaxKeyFrames();
+	void translateInterpolate(
+		aiVector3D &v0, aiVector3D &v1, aiVector3D &out, float factor);
+	void scaleInterpolate(
+		aiVector3D &v0, aiVector3D &v1, aiVector3D &out, float factor);
+	void rotationInterpolate(
+		aiQuaternion &q0, aiQuaternion &q1, aiQuaternion &out, float factor);
+	void findTranslation(
+		aiVector3D & vec, aiVectorKey *keys, int numKeys, double time);
+	void findScale(
+		aiVector3D & vec, aiVectorKey *keys, int numKeys, double time);
+	void findRotation(
+		aiQuaternion & quad, aiQuatKey *keys, int numKeys, double time);
 	void findLocalMatrices();
 	void findTransMatrices();
 	void findFinalTransMatrices();
@@ -59,10 +69,10 @@ public:
 		std::vector<std::vector<glm::mat4>> &mats);
 	unsigned int getTicksPerSecond();
 	unsigned int getDuration();
-	unsigned int getMaxKeyFrames();
 	unsigned int getMaxAffectBones();
 	unsigned int getMaxBones();
 }; 
 void printMatrix(aiMatrix4x4 &m);
 void printMatrix(glm::mat4 &m);
+void go(aiNode *node);
 #endif

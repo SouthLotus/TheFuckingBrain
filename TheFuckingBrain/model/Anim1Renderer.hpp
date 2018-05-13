@@ -15,7 +15,6 @@ private:
 	Anim1Shader shader;
 	std::vector<std::vector<glm::mat4>> mats;
 	unsigned int maxAffectBones;
-	unsigned int numKeyFrames;
 	unsigned int numBones;
 	unsigned int ticksPerSecond;
 	unsigned int duration;

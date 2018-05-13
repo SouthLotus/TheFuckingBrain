@@ -20,7 +20,6 @@ void Anim1Renderer::initVAO()
 {
 	SkeletalAnimParser parser("D:/anim.fbx", aiProcess_Triangulate);
 	maxAffectBones = parser.getMaxAffectBones();
-	numKeyFrames = parser.getMaxKeyFrames();
 	ticksPerSecond = parser.getTicksPerSecond();
 	duration = parser.getDuration();
 	numBones = parser.getMaxBones();
@@ -31,6 +30,10 @@ void Anim1Renderer::initVAO()
 	parser.getVerticesData(coords, normals, bIDs, bWeights);
 	parser.getTransformMatrices(mats);
 	numVertices = coords.size();
+	/*for (int i = 0; i < bIDs.size(); i+=3) {
+		printf("%f+%f+%f = %f\n", bWeights[i], bWeights[i+1], bWeights[i+2],
+			bWeights[i]+bWeights[i+1]+bWeights[i+2]);
+	}*/
 	int coordsSize = coords.size() * sizeof(glm::vec3);
 	int normalsSize = normals.size() * sizeof(glm::vec3);
 	int bWeightsSize = bWeights.size() * sizeof(float);
@@ -56,19 +59,38 @@ void Anim1Renderer::initVAO()
 	offset += bIDsSize;
 	glBufferSubData(GL_ARRAY_BUFFER, 
 		offset, bWeightsSize, bWeights.data());
-	offset = 0;
 	glEnableVertexAttribArray(shader.getICoord());
 	glEnableVertexAttribArray(shader.getINormal());
-	glEnableVertexAttribArray(shader.getIBIDs());
-	glEnableVertexAttribArray(shader.getIBWeights());
+	glEnableVertexAttribArray(shader.getIBIDs(0));
+	glEnableVertexAttribArray(shader.getIBIDs(1));
+	glEnableVertexAttribArray(shader.getIBWeights(0));
+	glEnableVertexAttribArray(shader.getIBWeights(1));
 	glVertexAttribPointer(
-		shader.getICoord(), 3, GL_FLOAT, false, sizeof(glm::vec3), (void *)offset);
+		shader.getICoord(), 3, GL_FLOAT, false,
+		sizeof(glm::vec3), (void *)0);
 	glVertexAttribPointer(
-		shader.getINormal(), 3, GL_FLOAT, false, sizeof(glm::vec3), (void *)(offset+=coordsSize));
+		shader.getINormal(), 3, GL_FLOAT, false,
+		sizeof(glm::vec3), (void *)(coordsSize));
+	//tinh so phan tu attrb
+	int numEB0 = maxAffectBones;
+	if (maxAffectBones > 3) {
+		numEB0 = 3;
+		int numEB1 = maxAffectBones - 3;
+		glVertexAttribIPointer(
+			shader.getIBIDs(1), numEB1, GL_INT,
+			maxAffectBones * sizeof(int), 
+			(void *)(coordsSize + normalsSize + sizeof(glm::vec3)));
+		glVertexAttribPointer(
+			shader.getIBWeights(1), numEB1, GL_FLOAT,
+			false, maxAffectBones * sizeof(float), 
+			(void *)(coordsSize + normalsSize + bIDsSize + sizeof(glm::vec3)));
+	}
 	glVertexAttribIPointer(
-		shader.getIBIDs(), maxAffectBones, GL_INT, maxAffectBones * sizeof(int), (void *)(offset += normalsSize));
+		shader.getIBIDs(0), numEB0, GL_INT,
+		maxAffectBones * sizeof(int), (void *)(coordsSize + normalsSize));
 	glVertexAttribPointer(
-		shader.getIBWeights(), maxAffectBones, GL_FLOAT, false, maxAffectBones * sizeof(float), (void *)(offset += bIDsSize));
+		shader.getIBWeights(0), numEB0, GL_FLOAT,
+		false, maxAffectBones * sizeof(float), (void *)(coordsSize + normalsSize + bIDsSize));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
@@ -85,9 +107,9 @@ void Anim1Renderer::render(
 		double dtime =
 			(matht::currentTimeMillis() - beginTime) / 1000.f;
 		int ticks = dtime * ticksPerSecond;
-		if (ticks < numKeyFrames) {
+		if (ticks < duration+1) {
 			glUniformMatrix4fv(shader.getVTrans(),
-				numBones, false, (GLfloat *)mats[ticks].data());
+				numBones, GL_FALSE, (GLfloat *)mats[ticks].data());
 		}
 		else {
 			beginTime = matht::currentTimeMillis();

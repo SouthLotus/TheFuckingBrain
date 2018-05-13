@@ -12,27 +12,42 @@
 SkeletalAnimParser::SkeletalAnimParser(const aiScene * scene):
 	scene(scene)
 {
-	findMaxKeyFrames();
+	/*
+	1. Tim cac ma tran chuyen tu he model local sang he bone local tuong
+	ung voi cac bone (dung map<string,matrix>)
+	2. Tim cac ma tran transform cac vertices trong he bone local tuong ung voi tung bone,
+	luu tru duoi dang arr[tick][bone]. (tick la thoi gian xay ra transform tuong ung)
+	3. Tim cac ma tran transfom vertices trong model local tuong ung void tung arr[tick][boneIndex],
+	cac ma tran nay dung de truyen vao shader.
+	4. Tim mot mang cua cau truc sau: [vertex | boneIDs | weights]
+	vertex la la thuoc tinh cua mot vertex (normal, coord, tex)
+	boneIDs la mang index tro den arr[tick][boneID], weights la mang
+	muc anh huong cua bone len vertex tuong ung voi tung boneIDs.
+	5. Tim so bone toi da anh huong den mot vertex.
+	*/
 	findLocalMatrices();
 	findTransMatrices();
 	findFinalTransMatrices();
 	findVerticesData();
 	findMaxAffectBones();
-	
 }
 
 SkeletalAnimParser::SkeletalAnimParser(const char * file, int howToWork)
 {
 	importer.ReadFile(file, howToWork);
 	scene = importer.GetScene();
-	findMaxKeyFrames();
-	findLocalMatrices();
+	findLocalMatrices(); 
 	findTransMatrices();
 	findFinalTransMatrices();
 	findVerticesData();
-	findMaxAffectBones();
-	std::cout << maxKeyFrames << std::endl;
-	std::cout << scene->mAnimations[0]->mDuration << std::endl;
+	findMaxAffectBones();	
+	//std::cout << getDuration() << std::endl;
+	//std::cout << maxAffectBones << std::endl;
+	printf("nm\n");
+	aiNode *a = scene->mRootNode->FindNode("Bone");
+	aiNode *b = a->mParent;
+	printMatrix(a->mTransformation);
+
 }
 
 void SkeletalAnimParser::getVerticesData(
@@ -92,6 +107,8 @@ void SkeletalAnimParser::getVerticesData(
 				for (int bIndex = 0; bIndex < numAffectBones; bIndex++) {
 					bIDs.push_back(verData.boneIDs[bIndex]);
 					bWeights.push_back(verData.weights[bIndex]);
+					//printf("bbb%d\n", verData.boneIDs[bIndex]);
+					//printf("!!!%f\n", verData.weights[bIndex]);
 				}
 				coords.push_back(vec3ToGLM(verData.coord));
 				normals.push_back(vec3ToGLM(verData.normal));
@@ -106,14 +123,13 @@ void SkeletalAnimParser::getTransformMatrices(
 	int numKeys = finalTransMats.size();
 	int numBones = finalTransMats[0].size();
 	mats.resize(numKeys);
-	std::cout << numKeys;
 	for (int i = 0; i < numKeys; i++) {
 		mats[i].resize(numBones);
 		for (int j = 0; j < numBones; j++) {
 			mats[i][j] = mat4ToGLM(
 				finalTransMats[i][j]);
-			/*printMatrix(mats[i][j]);
-			printf("\n");*/
+			//printMatrix(mats[i][j]);
+			//printf("\n");
 		}
 	}
 } 
@@ -128,11 +144,6 @@ unsigned int SkeletalAnimParser::getDuration()
 	return scene->mAnimations[0]->mDuration;
 }
 
-unsigned int SkeletalAnimParser::getMaxKeyFrames()
-{
-	return maxKeyFrames;
-}
-
 unsigned int SkeletalAnimParser::getMaxAffectBones()
 {
 	return maxAffectBones;
@@ -141,22 +152,6 @@ unsigned int SkeletalAnimParser::getMaxAffectBones()
 unsigned int SkeletalAnimParser::getMaxBones()
 {
 	return scene->mAnimations[0]->mNumChannels - 1;
-}
-
-
-void SkeletalAnimParser::findMaxKeyFrames()
-{
-	aiAnimation **anims = scene->mAnimations;
-	aiAnimation *anim = anims[0];
-	aiNodeAnim **channels = anim->mChannels;
-	int numChannels = anim->mNumChannels;
-	for (int i = 1; i < numChannels; i++) {
-		aiNodeAnim *channel = channels[i];
-		int numKeys = channel->mNumRotationKeys;
-		if (maxKeyFrames < numKeys) {
-			maxKeyFrames = numKeys;
-		}
-	}
 }
 
 void SkeletalAnimParser::findLocalMatrices()
@@ -173,8 +168,9 @@ void SkeletalAnimParser::findLocalMatrices()
 			std::cout << name << std::endl;
 			if (!localMats.count(name)) {
 				localMats[name] = bone->mOffsetMatrix;
+				printf("local %s\n", name);
 				printMatrix(localMats[name]);
-				printf("local\n");
+				
 			}
 		}
 	}
@@ -194,34 +190,77 @@ void printMatrix(glm::mat4 &m) {
 	std::printf("%8.4f %8.4f %8.4f %8.4f\n", m[0][3], m[1][3], m[2][3], m[3][3]);
 }
 
+void go(aiNode * fnode)
+{
+	if (fnode == NULL)
+		return;
+	aiNode ** nodes = fnode->mChildren;
+	std::cout << fnode->mName.C_Str() << std::endl; 
+	int numNode = fnode->mNumChildren;
+	for (int i = 0; i < numNode; i++) {
+		go(nodes[i]);
+	}
+	
+}
+
 void SkeletalAnimParser::findTransMatrices()
 {
+	std::cout << "Trans" << std::endl << std::endl << std::endl;
 	aiAnimation **anims = scene->mAnimations;
 	aiAnimation *anim = anims[0];
 	aiNodeAnim **channels = anim->mChannels;
+	double numTicks = anim->mDuration + 1;
 	int numChannels = anim->mNumChannels;
+	printf("num channel:%d\n", numChannels);
 	for (int i = 1; i < numChannels; i++) {
 		aiNodeAnim *channel = channels[i];
 		int numKeys = channel->mNumRotationKeys;
 		const char *name = channel->mNodeName.C_Str();
-		transMats[name] = std::vector<aiMatrix4x4>(maxKeyFrames);
-		std::cout << name << std::endl;
-		for (int j = 0; j < numKeys; j++) {
+		transMats[name] = std::vector<aiMatrix4x4>(numTicks);
+		std::cout << "Transform" << name << std::endl;
+		//for (int kk = 0; kk < channel->mNumRotationKeys; kk++) {
+			//printf("%f\n", channel->mPositionKeys[kk].mTime);
+		//}
+		/*aiMatrix4x4 transMat;
+		aiMatrix4x4 scalMat;
+		aiVector3D &trans = channel->mPositionKeys[0].mValue;
+		aiVector3D &scal = channel->mScalingKeys[0].mValue;
+		aiQuaternion &quad = channel->mRotationKeys[0].mValue;
+		aiMatrix4x4::Translation(trans, transMat);
+		aiMatrix4x4::Scaling(scal, scalMat);
+		aiMatrix4x4 rotMat(quad.GetMatrix());
+		aiMatrix4x4 offsetMat = scalMat * rotMat * transMat;
+		printf("first\n");
+		printMatrix(offsetMat);
+		printf("%8.4f %8.4f %8.4f %8.4f\n", quad.x, quad.y, quad.z, quad.w);
+		offsetMat.Inverse();*/
+
+		for (int j = 0; j < numTicks; j++) {
 			aiMatrix4x4 transMat;
 			aiMatrix4x4 scalMat;
-			aiVector3D &trans = channel->mPositionKeys[j].mValue;
-			aiVector3D &scal = channel->mScalingKeys[j].mValue;
-			aiQuaternion &quad = channel->mRotationKeys[j].mValue;
+			aiVector3D trans;
+			aiVector3D scal;
+			aiQuaternion quad;
+			//find
+			findTranslation(trans, channel->mPositionKeys, numKeys, j);
+			findScale(scal, channel->mScalingKeys, numKeys, j);
+			findRotation(quad, channel->mRotationKeys, numKeys, j);
 			aiMatrix4x4::Translation(trans, transMat);
 			aiMatrix4x4::Scaling(scal, scalMat);
 			aiMatrix4x4 rotMat(quad.GetMatrix());
-			//printf("%f, %f, %f, %f\n", quad.x, quad.y, quad.z, quad.w);
-			//printf("%f, %f, %f\n", trans.x, trans.y, trans.z);
+			printf("rot:%f, %f, %f, %f\n", quad.x, quad.y, quad.z, quad.w);
+			printf("tran:%f, %f, %f\n", trans.x, trans.y, trans.z);
 			//printf("%f, %f, %f\n", scal.x, scal.y, scal.z);
-			transMats[name][j] = scalMat * rotMat * transMat;
+			transMats[name][j] = transMat * scalMat *  rotMat;
+			if (strcmp(name, "Bone.001") == 0) {
+				aiVector3D vec(4, 10, -3);
+				aiMatrix4x4 inv = localMats["Bone"];
+				inv.Inverse();
+				aiVector3D v = inv * transMats[name][j] * localMats[name] * vec;
+				printf("nnnn %8.4f %8.4f %8.4f\n", v.x, v.y, v.z);
+			}
+			//printMatrix(transMats[name][j]);
 			//printMatrix(rotMat);
-			std::cout << channel->mRotationKeys[j].mTime << std::endl;
-			std::cout << "------------------------" << std::endl;
 		}
 	}
 } 
@@ -231,8 +270,9 @@ void SkeletalAnimParser::findFinalTransMatrices()
 	aiAnimation **anims = scene->mAnimations;
 	aiAnimation *anim = anims[0];
 	aiNodeAnim **channels = anim->mChannels;
+	double numTicks = anim->mDuration + 1;
 	int numChannels = anim->mNumChannels;
-	finalTransMats.resize(maxKeyFrames);
+	finalTransMats.resize(numTicks);
 	for (int i = 1; i < numChannels; i++) {
 		aiNodeAnim *channel = channels[i];
 		const char *name = channel->mNodeName.C_Str();
@@ -241,11 +281,14 @@ void SkeletalAnimParser::findFinalTransMatrices()
 		int numKeys = channel->mNumRotationKeys;
 		int boneIndex = i - 1;
 		boneIndices[name] = boneIndex;
-		for (int j = 0; j < maxKeyFrames; j++) {
+		std::cout << name << std::endl;
+		for (int j = 0; j < numTicks; j++) {
 			finalTransMats[j].resize(numChannels - 1);
 			finalTransMats[j][boneIndex] = localMat;
 			findFinalBoneMatrices(finalTransMats[j][boneIndex],
 				curNode, j);
+			//printMatrix(finalTransMats[j][boneIndex]);
+			//printf("\n\n");
 		}
 	}
 }
@@ -287,6 +330,20 @@ void SkeletalAnimParser::findVerticesData()
 				versData[vIndex].weights.push_back(vWeight);
 			}
 		}
+		/*for (int i = 0; i < verticesData.size(); i++) {
+			std::vector<VertexData> &data = verticesData[i];
+			int num = verticesData[i].size();
+			for (int j = 0; j < num; j++) {
+				printf("%8.4f %8.4f %8.4f\n", data[j].coord.x,
+					data[j].coord.x, data[j].coord.x);
+				int numb = data[j].boneIDs.size();
+				for (int k = 0; k < numb; k++) {
+					printf("bone: %d\n", data[j].boneIDs[k]);
+					printf(">> weight: %f\n", data[j].weights[k]);
+				}
+				printf("-------------------------------------\n");
+			}
+		}*/
 	}
 	//normalize weight
 	for (int i = 0; i < numMeshes; i++) {
@@ -340,16 +397,19 @@ void SkeletalAnimParser::findFinalBoneMatrices(
 {
 	const char *name = node.mName.C_Str();
 	aiNode &parent = *node.mParent;
-	if (!transMats.count(parent.mName.C_Str())) {
-		aiMatrix4x4 inverseMat = localMats[name];
+	if (strcmp(parent.mName.C_Str(), "Armature") == 0) {
+		aiMatrix4x4 inverseMat = node.mTransformation;
 		inverseMat.Inverse();
-		mat = inverseMat * transMats[name][keyIndex] * mat;
+		aiMatrix4x4 inverseMat2 = localMats[name];
+		inverseMat2.Inverse();
+		mat = inverseMat2 * inverseMat * transMats[name][keyIndex] * mat;
 		return;
 	}
 	else {
-		std::cout << node.mName.C_Str() <<"-->" << parent.mName.C_Str() << std::endl;
-		mat = node.mTransformation * transMats[name][keyIndex] * mat;
+		mat = transMats[name][keyIndex] * mat;
 		findFinalBoneMatrices(mat, parent, keyIndex);
+		printf("%s <-- %s\n", parent.mName.C_Str(), name);
+		printMatrix(node.mTransformation);
 	}
 }
 
@@ -366,4 +426,72 @@ glm::mat4 SkeletalAnimParser::mat4ToGLM(aiMatrix4x4 & mat)
 		mat.a3, mat.b3, mat.c3, mat.d3,
 		mat.a4, mat.b4, mat.c4, mat.d4
 	);
+}
+
+void SkeletalAnimParser::translateInterpolate(
+	aiVector3D &v0, aiVector3D &v1, aiVector3D &out, float factor) {
+		out = (1-factor) * v0 + factor * v1;
+}
+void SkeletalAnimParser::scaleInterpolate(
+	aiVector3D &v0, aiVector3D &v1, aiVector3D &out, float factor) {
+		out = (1-factor) * v0 + factor * v1;
+}
+void SkeletalAnimParser::rotationInterpolate(
+	aiQuaternion &q0, aiQuaternion &q1, aiQuaternion &out, float factor) {
+		aiQuaternion::Interpolate(out, q0, q1, factor);
+}
+
+void SkeletalAnimParser::findTranslation(
+	aiVector3D & vec, aiVectorKey *keys, int numKeys, double time)
+{
+	double factor;
+	aiVectorKey *key0;
+	aiVectorKey *key1;
+	for (int i = 1; i < numKeys; i++) {
+		key1 = &keys[i];
+		if (time <= key1->mTime) {
+			key0 = &keys[i - 1];
+			factor = 
+				1.f * (time - key0->mTime) / (key1->mTime - key0->mTime);
+			break;
+		}
+	}
+	translateInterpolate(key0->mValue, key1->mValue, vec, factor);
+}
+
+void SkeletalAnimParser::findScale(
+	aiVector3D & vec, aiVectorKey *keys, int numKeys, double time)
+{
+	double factor;
+	aiVectorKey *key0;
+	aiVectorKey *key1;
+	for (int i = 1; i < numKeys; i++) {
+		key1 = &keys[i];
+		if (time <= key1->mTime) {
+			key0 = &keys[i - 1];
+			factor =
+				1.f * (time - key0->mTime) / (key1->mTime - key0->mTime);
+			break;
+		}
+	}
+	translateInterpolate(key0->mValue, key1->mValue, vec, factor);
+}
+
+void SkeletalAnimParser::findRotation(
+	aiQuaternion & quad, aiQuatKey *keys, int numKeys, double time)
+{
+	double factor;
+	aiQuatKey *key0;
+	aiQuatKey *key1;
+	for (int i = 1; i < numKeys; i++) {
+		key1 = &keys[i];
+		if (time <= key1->mTime) {
+			key0 = &keys[i - 1];
+			factor =
+				(time - key0->mTime) / (key1->mTime - key0->mTime);
+			break;
+		}
+	}
+	//std::cout << factor << "|\n" << std::endl;
+	rotationInterpolate(key0->mValue, key1->mValue, quad, factor);
 }
