@@ -14,6 +14,17 @@
 #include "tool\MathTool.hpp"
 #include "tool\SkeletalAnimParser.hpp"
 
+
+class A {
+	private:
+		Assimp::Importer imp;
+};
+
+void c(Assimp::Importer &a) {
+	Assimp::Importer b;
+	a = b;
+	
+}
 int main(int arg, char **args) {
 	try {
 		GLFWContext context("The Fucking Brain");
@@ -22,6 +33,5 @@ int main(int arg, char **args) {
 	catch (std::exception exp) {
 		std::cout << exp.what() << std::endl;
 	}
-	
 	return 0;
 }

@@ -1,35 +1,24 @@
 ﻿  Anim1Renderer.cpp
-model\Anim1Renderer.cpp(32): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-model\Anim1Renderer.cpp(37): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-model\Anim1Renderer.cpp(38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-model\Anim1Renderer.cpp(39): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-model\Anim1Renderer.cpp(40): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-model\Anim1Renderer.cpp(73): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
-model\Anim1Renderer.cpp(90): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
-model\Anim1Renderer.cpp(93): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
-model\Anim1Renderer.cpp(109): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-model\Anim1Renderer.cpp(110): warning C4018: '<': signed/unsigned mismatch
-  SkeletalAnimParser.cpp
-tool\SkeletalAnimParser.cpp(74): warning C4018: '<': signed/unsigned mismatch
-tool\SkeletalAnimParser.cpp(106): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(123): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(124): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(139): warning C4244: 'return': conversion from 'double' to 'unsigned int', possible loss of data
-tool\SkeletalAnimParser.cpp(144): warning C4244: 'return': conversion from 'double' to 'unsigned int', possible loss of data
-tool\SkeletalAnimParser.cpp(219): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
-tool\SkeletalAnimParser.cpp(275): warning C4244: 'argument': conversion from 'double' to 'unsigned __int64', possible loss of data
-tool\SkeletalAnimParser.cpp(351): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(354): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(374): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(377): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(378): warning C4018: '>': signed/unsigned mismatch
-tool\SkeletalAnimParser.cpp(385): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(388): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-tool\SkeletalAnimParser.cpp(459): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-tool\SkeletalAnimParser.cpp(477): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-tool\SkeletalAnimParser.cpp(496): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\cworkspace\thefuckingbrain\thefuckingbrain\model\..\tool\SkeletalAnimParser.hpp(26): warning C4091: 'static ': ignored on left of 'SkeletalAnimParser::VertexData' when no variable is declared
+e:\cworkspace\thefuckingbrain\thefuckingbrain\model\..\tool\SkeletalAnimParser.hpp(36): warning C4091: 'static ': ignored on left of 'SkeletalAnimParser::AnimationData' when no variable is declared
+model\Anim1Renderer.cpp(40): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+model\Anim1Renderer.cpp(45): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Anim1Renderer.cpp(46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Anim1Renderer.cpp(47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Anim1Renderer.cpp(48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Anim1Renderer.cpp(49): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Anim1Renderer.cpp(50): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Anim1Renderer.cpp(51): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Anim1Renderer.cpp(97): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+model\Anim1Renderer.cpp(114): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+model\Anim1Renderer.cpp(118): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+model\Anim1Renderer.cpp(122): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+model\Anim1Renderer.cpp(126): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+model\Anim1Renderer.cpp(130): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+model\Anim1Renderer.cpp(152): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+model\Anim1Renderer.cpp(153): warning C4018: '<': signed/unsigned mismatch
   Generating code
-  57 of 1670 functions ( 3.4%) were compiled, the rest were copied from previous compilation.
+  71 of 2095 functions ( 3.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     17 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

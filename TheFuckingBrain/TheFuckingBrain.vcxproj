@@ -150,6 +150,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="model\Anim1Renderer.cpp" />
     <ClCompile Include="model\Model.cpp" />
+    <ClCompile Include="model\SkeletalAnimation.cpp" />
     <ClCompile Include="model\SkyBox.cpp" />
     <ClCompile Include="model\StaticLandscape.cpp" />
     <ClCompile Include="model\LowPolyTerrain.cpp" />
@@ -179,11 +180,13 @@
     <ClCompile Include="tool\ModelTool.cpp" />
     <ClCompile Include="tool\ShaderTool.cpp" />
     <ClCompile Include="tool\SkeletalAnimParser.cpp" />
+    <ClCompile Include="tool\SkeletalModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWContext.hpp" />
     <ClInclude Include="model\Anim1Renderer.hpp" />
     <ClInclude Include="model\Model.hpp" />
+    <ClInclude Include="model\SkeletalAnimation.hpp" />
     <ClInclude Include="model\SkyBox.hpp" />
     <ClInclude Include="model\StaticLandscape.hpp" />
     <ClInclude Include="model\LowPolyTerrain.hpp" />
@@ -213,6 +216,7 @@
     <ClInclude Include="tool\ModelTool.hpp" />
     <ClInclude Include="tool\ShaderTool.hpp" />
     <ClInclude Include="tool\SkeletalAnimParser.hpp" />
+    <ClInclude Include="tool\SkeletalModel.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

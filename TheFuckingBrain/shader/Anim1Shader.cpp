@@ -37,6 +37,21 @@ int Anim1Shader::getINormal()
 	return iNormal;
 }
 
+int Anim1Shader::getIka() const
+{
+	return ika;
+}
+
+int Anim1Shader::getIkd() const
+{
+	return ikd;
+}
+
+int Anim1Shader::getIks() const
+{
+	return iks;
+}
+
 int Anim1Shader::getIBIDs(int index)
 {
 	return iBIDs[index];
@@ -55,6 +70,26 @@ int Anim1Shader::getVTrans()
 int Anim1Shader::getProjViewModel()
 {
 	return projViewModel;
+}
+
+int Anim1Shader::getLitColor() const
+{
+	return litColor;
+}
+
+int Anim1Shader::getLitDirection() const
+{
+	return litDirection;
+}
+
+int Anim1Shader::getLitIntensity() const
+{
+	return litIntensity;
+}
+
+int Anim1Shader::getCameraPosition() const
+{
+	return cameraPosition;
 }
 
 Anim1Shader Anim1Shader::create()
@@ -80,6 +115,15 @@ void Anim1Shader::init()
 		programHandler, "iCoord");
 	iNormal = glGetAttribLocation(
 		programHandler, "iNormal");
+	ika = glGetAttribLocation(
+		programHandler, "ika"
+	);
+	ikd = glGetAttribLocation(
+		programHandler, "ikd"
+	);
+	iks = glGetAttribLocation(
+		programHandler, "iks"
+	);
 	iBIDs[0] = glGetAttribLocation(
 		programHandler, "iBIDs[0]");
 	iBIDs[1] = glGetAttribLocation(
@@ -91,6 +135,19 @@ void Anim1Shader::init()
 	vTrans = glGetUniformLocation(
 		programHandler, "vTrans"
 	);
+	litColor = glGetUniformLocation(
+		programHandler, "lit.color"
+	);
+	litDirection = glGetUniformLocation(
+		programHandler, "lit.direction"
+	);
+	litIntensity = glGetUniformLocation(
+		programHandler, "lit.intensity"
+	);
+	cameraPosition = glGetUniformLocation(
+		programHandler, "cameraPosition"
+	);
+
 	projViewModel = glGetUniformLocation(
 		programHandler, "projViewModel"
 	);

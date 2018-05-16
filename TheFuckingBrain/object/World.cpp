@@ -7,6 +7,8 @@
 
 void World::makeWorld()
 {
+	
+
 	//camera
 	camera.setLookAt(glm::vec3(5.f, 5.f, 5.f),
 		glm::vec3(0, 0, 0));
@@ -33,20 +35,31 @@ void World::makeWorld()
 	anim.beginAnim();
 }
 
-World::World()
+void World::showAll()
 {
-	makeWorld();
+	
+	//terrain.render(camera, dLight);
+	anim.render(camera, dLight);
+	skybox.render(camera);
 }
 
-void World::showAll()
+void World::doLogic()
 {
 	camController.controll();
 	const glm::vec3 *pos = camera.getPos();
 	//float height = terrain.getHeight(pos->x, pos->z);
 	//camera.moveRelative(glm::vec3(0, height - pos->y + 1.6f, 0));
-	//terrain.render(camera, dLight);
-	anim.render(camera, dLight);
-	skybox.render(camera);
+}
+
+World::World()
+{
+	makeWorld();
+}
+
+void World::work()
+{
+	doLogic();
+	showAll();
 }
 
 void World::framebufferSizeSignal(int width, int height)

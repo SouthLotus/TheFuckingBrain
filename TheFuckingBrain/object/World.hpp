@@ -9,7 +9,6 @@
 #include "..\model\Anim1Renderer.hpp"
 class World {
 private:
-
 	static class CameraController {
 	private:
 		bool isLeft = false;
@@ -40,17 +39,18 @@ private:
 	};
 
 	Camera camera;
-	StaticLandscape land;
 	//LowPolyTerrain terrain;
 	Anim1Renderer anim;
 	SkyBox skybox;
 	DirectionalLight dLight;
 	CameraController camController;
 	void makeWorld();
+	void showAll();
+	void doLogic();
 public:
 	World();
 	~World() = default;
-	void showAll();
+	void work();
 	void framebufferSizeSignal(int width, int height);
 	void keySignal(int key, int scan, int action, int mod);
 	void cursorPosSignal(

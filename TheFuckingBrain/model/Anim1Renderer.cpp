@@ -9,6 +9,7 @@
 #include "Anim1Renderer.hpp"
 #include "..\tool\SkeletalAnimParser.hpp"
 #include "..\tool\MathTool.hpp"
+#include "..\tool\SkeletalModel.hpp"
 
 Anim1Renderer::Anim1Renderer():
 	shader(Anim1Shader::create())
@@ -18,17 +19,24 @@ Anim1Renderer::Anim1Renderer():
 
 void Anim1Renderer::initVAO()
 {
-	SkeletalAnimParser parser("D:/anim.fbx", aiProcess_Triangulate);
-	maxAffectBones = parser.getMaxAffectBones();
-	ticksPerSecond = parser.getTicksPerSecond();
-	duration = parser.getDuration();
-	numBones = parser.getMaxBones();
+	const char *actionName = "Armature|walk";
+	SkeletalModel skmodel("D:/anim.fbx", aiProcess_Triangulate);
+	maxAffectBones = skmodel.getMaxAffectBones();
+	ticksPerSecond = skmodel.getTicksPerSecond(actionName);
+	duration = skmodel.getDuration(actionName);
+	numBones = skmodel.getMaxBones(actionName);
 	std::vector<glm::vec3> coords;
 	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> iks;
+	std::vector<glm::vec3> ika;
+	std::vector<glm::vec3> ikd;
 	std::vector<int> bIDs;
 	std::vector<float> bWeights;
-	parser.getVerticesData(coords, normals, bIDs, bWeights);
-	parser.getTransformMatrices(mats);
+	skmodel.getVerticesData(coords, normals, bIDs, bWeights);
+	skmodel.getTransformMatrices(actionName, mats);
+	skmodel.getMaterial3V(iks, AI_MATKEY_COLOR_SPECULAR);
+	skmodel.getMaterial3V(ikd, AI_MATKEY_COLOR_DIFFUSE);
+	skmodel.getMaterial3V(ika, AI_MATKEY_COLOR_AMBIENT);
 	numVertices = coords.size();
 	/*for (int i = 0; i < bIDs.size(); i+=3) {
 		printf("%f+%f+%f = %f\n", bWeights[i], bWeights[i+1], bWeights[i+2],
@@ -36,10 +44,13 @@ void Anim1Renderer::initVAO()
 	}*/
 	int coordsSize = coords.size() * sizeof(glm::vec3);
 	int normalsSize = normals.size() * sizeof(glm::vec3);
+	int iksSize = iks.size() * sizeof(glm::vec3);
+	int ikdSize = ikd.size() * sizeof(glm::vec3);
+	int ikaSize = ika.size() * sizeof(glm::vec3);
 	int bWeightsSize = bWeights.size() * sizeof(float);
 	int bIDsSize = bIDs.size() * sizeof(int);
 	int totalSize = coordsSize + normalsSize 
-		+ bIDsSize + bWeightsSize;
+		+ bIDsSize + bWeightsSize + iksSize + ikdSize + ikaSize;
 	int offset = 0;
 	vaoOwner = GLVAOOwner(1);
 	vboOwener = GLVBOOwner(1);
@@ -59,12 +70,25 @@ void Anim1Renderer::initVAO()
 	offset += bIDsSize;
 	glBufferSubData(GL_ARRAY_BUFFER, 
 		offset, bWeightsSize, bWeights.data());
+	offset += bWeightsSize;
+	glBufferSubData(GL_ARRAY_BUFFER,
+		offset, ikaSize, ika.data());
+	offset += ikaSize;
+	glBufferSubData(GL_ARRAY_BUFFER,
+		offset, ikdSize, ikd.data());
+	offset += ikdSize;
+	glBufferSubData(GL_ARRAY_BUFFER,
+		offset, iksSize, iks.data());
 	glEnableVertexAttribArray(shader.getICoord());
 	glEnableVertexAttribArray(shader.getINormal());
 	glEnableVertexAttribArray(shader.getIBIDs(0));
 	glEnableVertexAttribArray(shader.getIBIDs(1));
 	glEnableVertexAttribArray(shader.getIBWeights(0));
 	glEnableVertexAttribArray(shader.getIBWeights(1));
+	glEnableVertexAttribArray(shader.getIks());
+	glEnableVertexAttribArray(shader.getIka());
+	glEnableVertexAttribArray(shader.getIkd());
+
 	glVertexAttribPointer(
 		shader.getICoord(), 3, GL_FLOAT, false,
 		sizeof(glm::vec3), (void *)0);
@@ -90,19 +114,38 @@ void Anim1Renderer::initVAO()
 		maxAffectBones * sizeof(int), (void *)(coordsSize + normalsSize));
 	glVertexAttribPointer(
 		shader.getIBWeights(0), numEB0, GL_FLOAT,
-		false, maxAffectBones * sizeof(float), (void *)(coordsSize + normalsSize + bIDsSize));
+		false, maxAffectBones * sizeof(float), (void *)(coordsSize + 
+			normalsSize + bIDsSize));
+	glVertexAttribPointer(
+		shader.getIka(), 3, GL_FLOAT, false,
+		sizeof(glm::vec3), (void *)(coordsSize + normalsSize + 
+			bIDsSize + bWeightsSize));
+	glVertexAttribPointer(
+		shader.getIkd(), 3, GL_FLOAT, false,
+		sizeof(glm::vec3), (void *)(coordsSize + normalsSize + 
+			bIDsSize + bWeightsSize + ikaSize));
+	glVertexAttribPointer(
+		shader.getIks(), 3, GL_FLOAT, false,
+		sizeof(glm::vec3), (void *)(coordsSize + normalsSize +
+			bIDsSize + bWeightsSize + ikaSize + ikdSize));
+	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
 void Anim1Renderer::render(
-	Camera & Camera, DirectionalLight & light)
+	Camera & camera, DirectionalLight & light)
 {
-	glm::mat4 mat = *Camera.getProj() * *Camera.getLookAt();
+	glm::mat4 mat = *camera.getProj() * *camera.getLookAt();
 	glBindVertexArray(vaoOwner.get(0));
 	shader.useProgram();
 	glUniformMatrix4fv(shader.getProjViewModel(),
 		1, false, &mat[0][0]);
+	glUniform3fv(shader.getLitColor(), 1, (GLfloat *)light.getColor());
+	glUniform3fv(shader.getLitDirection(), 1,
+		(GLfloat *)light.getDirection());
+	glUniform1f(shader.getLitIntensity(), light.getIntensity());
+	glUniform3fv(shader.getCameraPosition(), 1, (GLfloat *)camera.getPos());
 	if (isAnim) {
 		double dtime =
 			(matht::currentTimeMillis() - beginTime) / 1000.f;
