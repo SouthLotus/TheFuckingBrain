@@ -6,7 +6,7 @@
 #include "..\object\DirectionalLight.hpp"
 #include "..\model\StaticLandscape.hpp"
 #include "..\model\LowPolyTerrain.hpp"
-#include "..\model\Anim1Renderer.hpp"
+#include "..\object\Wither.hpp"
 class World {
 private:
 	static class CameraController {
@@ -39,8 +39,8 @@ private:
 	};
 
 	Camera camera;
-	//LowPolyTerrain terrain;
-	Anim1Renderer anim;
+	LowPolyTerrain terrain;
+	Wither wither;
 	SkyBox skybox;
 	DirectionalLight dLight;
 	CameraController camController;

@@ -92,6 +92,11 @@ int Anim1Shader::getCameraPosition() const
 	return cameraPosition;
 }
 
+int Anim1Shader::getWorldTrans() const
+{
+	return worldTrans;
+}
+
 Anim1Shader Anim1Shader::create()
 {
 	return Anim1Shader(true);
@@ -150,6 +155,10 @@ void Anim1Shader::init()
 
 	projViewModel = glGetUniformLocation(
 		programHandler, "projViewModel"
+	);
+	
+	worldTrans = glGetUniformLocation(
+		programHandler, "worldTrans"
 	);
 }
 

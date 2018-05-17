@@ -111,13 +111,16 @@
     <ClCompile Include="shader\Anim1Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="model\Anim1Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tool\SkeletalModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="model\SkeletalAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="object\Wither.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="model\WitherGraphic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -215,13 +218,16 @@
     <ClInclude Include="shader\Anim1Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="model\Anim1Renderer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tool\SkeletalModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="model\SkeletalAnimation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="object\Wither.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="model\WitherGraphic.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

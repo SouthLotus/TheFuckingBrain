@@ -148,16 +148,17 @@
   <ItemGroup>
     <ClCompile Include="GLFWContext.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="model\Anim1Renderer.cpp" />
     <ClCompile Include="model\Model.cpp" />
     <ClCompile Include="model\SkeletalAnimation.cpp" />
     <ClCompile Include="model\SkyBox.cpp" />
     <ClCompile Include="model\StaticLandscape.cpp" />
     <ClCompile Include="model\LowPolyTerrain.cpp" />
     <ClCompile Include="model\TexturedCube.cpp" />
+    <ClCompile Include="model\WitherGraphic.cpp" />
     <ClCompile Include="object\Camera.cpp" />
     <ClCompile Include="object\DirectionalLight.cpp" />
     <ClCompile Include="object\LowPolyTerrainObj.cpp" />
+    <ClCompile Include="object\Wither.cpp" />
     <ClCompile Include="object\World.cpp" />
     <ClCompile Include="owner\FileOwner.cpp" />
     <ClCompile Include="owner\GLAttachShaderOwner.cpp" />
@@ -184,16 +185,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWContext.hpp" />
-    <ClInclude Include="model\Anim1Renderer.hpp" />
     <ClInclude Include="model\Model.hpp" />
     <ClInclude Include="model\SkeletalAnimation.hpp" />
     <ClInclude Include="model\SkyBox.hpp" />
     <ClInclude Include="model\StaticLandscape.hpp" />
     <ClInclude Include="model\LowPolyTerrain.hpp" />
     <ClInclude Include="model\TexturedCube.hpp" />
+    <ClInclude Include="model\WitherGraphic.hpp" />
     <ClInclude Include="object\Camera.hpp" />
     <ClInclude Include="object\DirectionalLight.hpp" />
     <ClInclude Include="object\LowPolyTerrainObj.hpp" />
+    <ClInclude Include="object\Wither.hpp" />
     <ClInclude Include="object\World.hpp" />
     <ClInclude Include="owner\FileOwner.hpp" />
     <ClInclude Include="owner\GLAttachShaderOwner.hpp" />

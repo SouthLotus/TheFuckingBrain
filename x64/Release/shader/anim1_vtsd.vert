@@ -22,6 +22,7 @@ uniform mat4 vTrans[] = mat4[10](
 	mat4(1.0), mat4(1.0), mat4(1.0),
 	mat4(1.0), mat4(1.0), mat4(1.0), mat4(1.0));
 uniform mat4 projViewModel;
+uniform mat4 worldTrans;
 
 void main() {
 	vtsd.oka = ika;
@@ -51,6 +52,6 @@ void main() {
 		trans[3][2] = 0;
 		vtsd.oVCoord = vec3(newCoord);
 		vtsd.oVNormal = vec3(trans * vec4(iNormal, 1.0));
-		gl_Position = projViewModel * newCoord;
+		gl_Position = projViewModel * worldTrans * newCoord;
 	}
 }

@@ -22,6 +22,7 @@ private:
 	int litDirection;
 	int litIntensity;
 	int cameraPosition;
+	int worldTrans;
 	void init();
 	Anim1Shader(bool flag);
 public:
@@ -44,6 +45,7 @@ public:
 	int getLitDirection() const;
 	int getLitIntensity() const;
 	int getCameraPosition() const;
+	int getWorldTrans() const;
 	static Anim1Shader create();
 };
 #endif
